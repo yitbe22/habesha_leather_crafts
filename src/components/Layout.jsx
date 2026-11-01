@@ -8,7 +8,8 @@ import { PageFallback } from '@/components/PageFallback'
 import { useCart } from '@/context/CartContext'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { EASE_LUX } from '@/lib/motion'
-import { startFlight } from '@/lib/photoFlight'
+import { preloadLarge, startFlight } from '@/lib/photoFlight'
+import { ProductDetail, Shop } from '@/pages/lazy'
 
 // Loaded the first time the bag is opened, to keep the initial bundle small.
 const CartDrawer = lazy(() => import('@/components/CartDrawer').then((mod) => ({ default: mod.CartDrawer })))
@@ -35,9 +36,13 @@ export function Layout() {
       if (!scope) return
       startFlight(link.getAttribute('href').split('/').pop(), scope.querySelector('.lux-media'))
     }
-    // the moment a card is pointed at, start loading the product page so the photo never waits for it
+    // the moment a card is pointed at (or touched), start loading the product page and its
+    // large photo, so the flight never waits for either
     const onPointerOver = (e) => {
-      if (e.target.closest?.('[data-flip-scope]')) import('@/pages/ProductDetail')
+      const scope = e.target.closest?.('[data-flip-scope]')
+      if (!scope) return
+      ProductDetail.preload()
+      preloadLarge(scope.querySelector('.lux-media img'))
     }
     document.addEventListener('click', onClick, true)
     document.addEventListener('pointerover', onPointerOver, { passive: true })
@@ -51,8 +56,8 @@ export function Layout() {
   useEffect(() => {
     const idle = window.requestIdleCallback ?? ((cb) => setTimeout(cb, 1500))
     idle(() => {
-      import('@/pages/Shop')
-      import('@/pages/ProductDetail')
+      Shop.preload()
+      ProductDetail.preload()
     })
   }, [])
 
@@ -71,7 +76,7 @@ export function Layout() {
           key={location.pathname}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.55, ease: EASE_LUX } }}
-          exit={{ opacity: 0, transition: { duration: 0.25, ease: EASE_LUX } }}
+          exit={{ opacity: 0, transition: { duration: 0.2, ease: EASE_LUX } }}
           className="min-h-svh"
         >
           <Suspense fallback={<PageFallback />}>{outlet}</Suspense>

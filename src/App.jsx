@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion'
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Layout } from '@/components/Layout'
 import { PageFallback } from '@/components/PageFallback'
@@ -8,15 +8,9 @@ import { Toaster } from '@/components/ui/sonner'
 import { CartProvider } from '@/context/CartContext'
 import { ThemeProvider } from '@/context/ThemeContext'
 import Home from '@/pages/Home'
+import { About, AdminDashboard, AdminLayout, Contact, NotFound, ProductDetail, Shop } from '@/pages/lazy'
 
-// Home ships in the main bundle (it is the usual landing page); everything else loads on demand.
-const Shop = lazy(() => import('@/pages/Shop'))
-const ProductDetail = lazy(() => import('@/pages/ProductDetail'))
-const About = lazy(() => import('@/pages/About'))
-const Contact = lazy(() => import('@/pages/Contact'))
-const NotFound = lazy(() => import('@/pages/NotFound'))
-const AdminLayout = lazy(() => import('@/pages/admin/AdminLayout'))
-const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard'))
+// Home ships in the main bundle (it is the usual landing page); everything else loads on demand (see pages/lazy.js).
 
 const router = createBrowserRouter([
   {

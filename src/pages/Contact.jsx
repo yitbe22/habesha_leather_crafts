@@ -38,7 +38,7 @@ export default function Contact() {
       />
 
       {/* phones: quick channels first (most visitors arrive from Instagram), then the form, then hours and map */}
-      <div className="container-lux grid items-start gap-10 pb-[var(--section-y)] lg:grid-cols-[1.25fr_1fr] lg:gap-x-14">
+      <div className="container-lux grid grid-cols-[minmax(0,1fr)] items-start gap-10 pb-[var(--section-y)] lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-x-14">
         <Reveal className="rounded-[1.75rem] bg-card p-6 shadow-[0_30px_60px_-45px_rgba(42,26,18,0.45)] ring-1 ring-hairline sm:p-10 lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:row-span-2">
           <h2 className="text-subtitle">Send us a message</h2>
           <p className="mt-2 mb-8 text-sm text-muted-foreground">All fields are required except the topic, so we can reply to the right person.</p>

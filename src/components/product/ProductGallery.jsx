@@ -44,7 +44,7 @@ export function ProductGallery({ product, index, onIndexChange, frameRef }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2.5 sm:gap-3">
       <div
         ref={frameRef}
         tabIndex={0}
@@ -54,7 +54,7 @@ export function ProductGallery({ product, index, onIndexChange, frameRef }) {
         onKeyDown={onKeyDown}
         onPointerMove={onPointerMove}
         onPointerLeave={() => setZoom(null)}
-        className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted"
+        className="group relative aspect-square max-h-[52svh] w-full overflow-hidden rounded-2xl bg-muted sm:aspect-[4/5] sm:max-h-none"
       >
         <AnimatePresence initial={false} custom={shown.dir}>
           <m.div
@@ -113,7 +113,7 @@ export function ProductGallery({ product, index, onIndexChange, frameRef }) {
                 aria-label={`Show photo ${i + 1}`}
                 aria-current={i === index}
                 className={cn(
-                  'block w-[4.5rem] overflow-hidden rounded-lg ring-offset-2 ring-offset-background transition sm:w-20',
+                  'block w-14 overflow-hidden rounded-lg ring-offset-2 ring-offset-background transition sm:w-20',
                   i === index ? 'ring-2 ring-cognac' : 'opacity-70 hover:opacity-100',
                 )}
               >

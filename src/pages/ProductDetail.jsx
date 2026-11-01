@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { site } from '@/config/site'
 import { useCart } from '@/context/CartContext'
 import { useProduct } from '@/hooks/useCatalog'
+import { useIdleReady } from '@/hooks/useIdleReady'
 import { flyToCart } from '@/lib/flyToCart'
 import { formatPrice } from '@/lib/format'
 import { EASE_EXPO, EASE_LUX } from '@/lib/motion'
@@ -61,6 +62,7 @@ function ProductView({ product }) {
   const [adding, setAdding] = useState(false)
   const [showBar, setShowBar] = useState(false)
   useScrolledPast(buyRef, setShowBar)
+  const relatedReady = useIdleReady()
 
   const message = productMessage(product, color)
   const words = product.name.split(' ')
@@ -120,7 +122,7 @@ function ProductView({ product }) {
       </script>
 
       <article className="container-lux pt-[calc(var(--header-h)+1.25rem)] pb-[var(--section-y)]">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted-foreground">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted-foreground sm:mb-6">
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
               <Link to="/shop" className="link-draw hover:text-foreground">
@@ -144,7 +146,7 @@ function ProductView({ product }) {
           </ol>
         </nav>
 
-        <div className="grid gap-10 lg:grid-cols-[1.12fr_1fr] lg:gap-16">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-7 sm:gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-16">
           <ProductGallery product={product} index={index} onIndexChange={setIndex} frameRef={frameRef} />
 
           <m.div initial="hidden" animate="show" className="flex flex-col lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
@@ -189,9 +191,17 @@ function ProductView({ product }) {
               {product.in_stock ? (
                 <>
                   <QuantityStepper value={quantity} onChange={setQuantity} size="lg" />
-                  <Button size="lg" className="h-[3.25rem] flex-1 rounded-full text-[0.95rem]" onClick={add} disabled={adding}>
+                  <Button size="lg" className="h-[3.25rem] min-w-0 flex-1 rounded-full text-[0.95rem]" onClick={add} disabled={adding}>
                     <ShoppingBag strokeWidth={1.6} />
-                    {adding ? 'Adding…' : `Add to bag · ${formatPrice(product.price * quantity, product.currency)}`}
+                    {adding ? (
+                      'Adding…'
+                    ) : (
+                      <>
+                        Add to bag
+                        {/* the running total only where there is room for it; the price is shown just above */}
+                        <span className="hidden min-[400px]:inline"> · {formatPrice(product.price * quantity, product.currency)}</span>
+                      </>
+                    )}
                   </Button>
                 </>
               ) : (
@@ -259,7 +269,8 @@ function ProductView({ product }) {
         </div>
       </article>
 
-      <RelatedProducts product={product} />
+      {/* below the fold: built once the arrival has played, so it never slows the photo's flight */}
+      {relatedReady && <RelatedProducts product={product} />}
 
       {/* phones: once the main button scrolls away, a slim bar keeps it in reach */}
       <AnimatePresence>
@@ -290,8 +301,8 @@ function ProductView({ product }) {
 
 function ProductSkeleton() {
   return (
-    <div className="container-lux grid gap-10 pt-[calc(var(--header-h)+3.5rem)] pb-[var(--section-y)] lg:grid-cols-[1.12fr_1fr] lg:gap-16" aria-busy="true" aria-label="Loading product">
-      <Skeleton className="aspect-[4/5] rounded-2xl bg-sand/60" />
+    <div className="container-lux grid gap-10 pt-[calc(var(--header-h)+3.5rem)] pb-[var(--section-y)] grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-16" aria-busy="true" aria-label="Loading product">
+      <Skeleton className="aspect-square max-h-[52svh] rounded-2xl bg-sand/60 sm:aspect-[4/5] sm:max-h-none" />
       <div className="flex flex-col gap-4">
         <Skeleton className="h-3 w-20 bg-sand/60" />
         <Skeleton className="h-12 w-4/5 bg-sand/60" />
