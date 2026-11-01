@@ -1,0 +1,385 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   Brand tokens. A cream workshop wall, espresso ink, cognac leather,
+   with gold thread and terracotta used only as small accents.
+   Every text pairing below passes WCAG AA on its intended surface.
+   ------------------------------------------------------------------ */
+:root {
+  --cream: #faf6ef;      /* page */
+  --parchment: #f1e8da;  /* secondary surface, used for alternating bands */
+  --sand: #e6d7c1;       /* hairlines on parchment, skeletons */
+  --espresso: #2a1a12;   /* text and the dark sections */
+  --umber: #6b5546;      /* secondary text */
+  --cognac: #8b4a24;     /* primary actions, links */
+  --tan: #c08a57;        /* decorative leather tone */
+  --gold: #b8893b;       /* thread: focus ring, stitches, small details */
+  --terracotta: #b5502f; /* badges, the occasional highlight */
+
+  --hairline: color-mix(in oklab, var(--espresso) 12%, transparent);
+
+  /* one spacing rhythm for every section */
+  --section-y: clamp(4.5rem, 9vw, 8rem);
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --header-h: 72px;
+
+  /* easing borrowed from the Mercy site: long, soft landings */
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* shadcn theme */
+  --background: var(--cream);
+  --foreground: var(--espresso);
+  --card: #fffdf9;
+  --card-foreground: var(--espresso);
+  --popover: #fffdf9;
+  --popover-foreground: var(--espresso);
+  --primary: var(--cognac);
+  --primary-foreground: var(--cream);
+  --secondary: var(--parchment);
+  --secondary-foreground: var(--espresso);
+  --muted: var(--parchment);
+  --muted-foreground: var(--umber);
+  --accent: var(--parchment);
+  --accent-foreground: var(--espresso);
+  --destructive: #a3341f;
+  --border: color-mix(in oklab, var(--espresso) 14%, var(--cream));
+  --input: color-mix(in oklab, var(--espresso) 24%, var(--cream));
+  --ring: var(--gold);
+  --radius: 0.5rem;
+}
+
+/* ------------------------------------------------------------------
+   Dark theme: a workshop after hours. Cream and espresso stay as the light
+   and dark inks (text-cream on a dark band stays light); espresso deepens so
+   the dark bands still sit apart from the page. Accent text brightens to keep
+   its contrast, while `primary` stays deep enough to carry cream text.
+   ------------------------------------------------------------------ */
+.dark {
+  color-scheme: dark;
+  --espresso: #0e0a07;
+  --parchment: #221812;
+  --sand: #3a2b20;
+  --umber: #b9a693;
+  --cognac: #d4955f;
+  --tan: #a8794e;
+  --gold: #c99d52;
+  --hairline: color-mix(in oklab, #f3ebe0 12%, transparent);
+
+  --background: #17110c;
+  --foreground: #f3ebe0;
+  --card: #1f1610;
+  --card-foreground: #f3ebe0;
+  --popover: #1f1610;
+  --popover-foreground: #f3ebe0;
+  --primary: #a65a2c;
+  --primary-foreground: #faf6ef;
+  --secondary: var(--parchment);
+  --secondary-foreground: #f3ebe0;
+  --muted: var(--parchment);
+  --muted-foreground: var(--umber);
+  --accent: var(--parchment);
+  --accent-foreground: #f3ebe0;
+  --destructive: #e0866e;
+  --border: color-mix(in oklab, #f3ebe0 14%, #17110c);
+  --input: color-mix(in oklab, #f3ebe0 22%, #17110c);
+}
+
+/*
+ * Theme switch: the new theme is revealed in a circle growing from the
+ * toggle (View Transitions API, see ThemeContext). The default cross-fade is
+ * switched off so only the circle animates.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* browsers without view transitions get a short colour fade instead */
+.theme-fade,
+.theme-fade *,
+.theme-fade *::before,
+.theme-fade *::after {
+  transition:
+    background-color 450ms ease,
+    color 450ms ease,
+    border-color 450ms ease,
+    fill 450ms ease !important;
+}
+
+@theme inline {
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-cream: var(--cream);
+  --color-parchment: var(--parchment);
+  --color-sand: var(--sand);
+  --color-espresso: var(--espresso);
+  --color-umber: var(--umber);
+  --color-cognac: var(--cognac);
+  --color-tan: var(--tan);
+  --color-gold: var(--gold);
+  --color-terracotta: var(--terracotta);
+  --color-hairline: var(--hairline);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans antialiased;
+    scroll-behavior: smooth;
+    scrollbar-color: color-mix(in oklab, var(--espresso) 30%, transparent) transparent;
+    scrollbar-width: thin;
+  }
+  body {
+    @apply bg-background text-foreground;
+    line-height: 1.65;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  h1 { letter-spacing: -0.02em; line-height: 1.02; }
+  h2 { letter-spacing: -0.015em; line-height: 1.08; }
+  h3 { line-height: 1.2; }
+  p { text-wrap: pretty; }
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 35%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* fluid type scale */
+  .text-display { font-size: clamp(2.75rem, 7vw, 6rem); }
+  .text-title { font-size: clamp(2.1rem, 4.2vw, 3.5rem); }
+  .text-subtitle { font-size: clamp(1.4rem, 2.2vw, 1.85rem); }
+
+  /* small label above a heading: tracked caps in gold thread */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cognac);
+  }
+
+  .section-y { padding-block: var(--section-y); }
+  /* first section of an inner page: clears the fixed header, then one rhythm step */
+  .page-top { padding-top: calc(var(--section-y) + var(--header-h)); }
+  .container-lux {
+    @apply mx-auto w-full max-w-[1320px];
+    padding-inline: var(--gutter);
+  }
+
+  /* text link: a thin underline that grows in from the left */
+  .link-draw {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 400ms var(--ease-lux);
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible,
+  .link-draw[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+
+  /* a stitched edge, like a saddle-stitched leather patch */
+  .stitched {
+    position: relative;
+  }
+  .stitched::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed color-mix(in oklab, var(--gold) 70%, transparent);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /*
+    Leather grain: a faint fractal noise laid over the dark sections so
+    flat espresso reads as hide rather than paint.
+  */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ------------------------------------------------------------------
+   Card hover motion (ported from Mercy). Unlayered on purpose so these
+   transitions win over Tailwind utilities on the same image. CSS
+   transitions rather than keyframes, so a hover can reverse mid-flight.
+   ------------------------------------------------------------------ */
+.lux-media img {
+  transition: transform 900ms var(--ease-lux), opacity 500ms var(--ease-lux);
+}
+.lux-actions {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms var(--ease-lux), transform 400ms var(--ease-lux);
+}
+@media (hover: hover) {
+  .lux-card:hover .lux-media img { transform: scale(1.05); }
+  .lux-card:hover .lux-actions,
+  .lux-card:focus-within .lux-actions { opacity: 1; transform: none; }
+}
+@media (hover: none) {
+  .lux-actions { display: none; }
+}
+
+/*
+  Scroll reveal. useScrollReveal adds `in` to each [data-reveal] element as it
+  scrolls into view; `.loaded` (set when the intro loader lifts) lets it play.
+  Content is only hidden when JavaScript runs and motion is allowed, so it is
+  never lost. `--d` staggers items in a row.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(8px);
+    transition:
+      opacity 900ms var(--ease-lux),
+      transform 1000ms var(--ease-lux),
+      filter 900ms var(--ease-lux);
+    transition-delay: var(--d, 0ms);
+  }
+  .js.loaded [data-reveal].in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  /* headings appear word by word (see <Words>), so the heading itself stays put */
+  .js [data-reveal="words"] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .js [data-reveal="words"] .w {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1000ms var(--ease-expo);
+    transition-delay: calc(var(--d, 0ms) + var(--i) * 60ms);
+  }
+  .js.loaded [data-reveal="words"].in .w {
+    transform: none;
+  }
+
+  /* photos wipe open from the bottom and settle from a slight zoom */
+  .js [data-reveal="image"] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .js [data-reveal="image"] > .reveal-clip {
+    clip-path: inset(100% 0% 0% 0% round var(--r, 0px));
+    transition: clip-path 1200ms var(--ease-expo) var(--d, 0ms);
+  }
+  .js [data-reveal="image"] .reveal-zoom {
+    transform: scale(1.15);
+    transition: transform 1600ms var(--ease-expo) var(--d, 0ms);
+  }
+  .js.loaded [data-reveal="image"].in > .reveal-clip {
+    clip-path: inset(0% 0% 0% 0% round var(--r, 0px));
+  }
+  .js.loaded [data-reveal="image"].in .reveal-zoom {
+    transform: none;
+  }
+}
+
+/* marquee: the content is rendered twice and the track slides by half its width */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* horizontal rail: native scroll and swipe, no visible scrollbar, draggable with a mouse */
+.rail {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail img { -webkit-user-drag: none; user-select: none; }
+@media (hover: hover) and (pointer: fine) {
+  .rail { cursor: grab; }
+}
+.rail[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+.rail[data-dragging] a { pointer-events: none; }
+
+/* a dashed vertical seam, used by the process steps */
+.seam {
+  background-image: linear-gradient(to bottom, currentColor 55%, transparent 0);
+  background-size: 2px 13px;
+  background-repeat: repeat-y;
+}
+
+/* word masks: each word sits in a clipped box so it can rise out of it */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  vertical-align: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .lux-card:hover .lux-media img { transform: none !important; }
+  .marquee-track { animation: none; }
+}
