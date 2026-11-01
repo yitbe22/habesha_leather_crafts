@@ -94,7 +94,7 @@ component ──► hooks/useCatalog.js ──► services/*.js ──► (today
 ## Features worth knowing
 
 - **Checkout via WhatsApp:** the bag records the order through `orderService`, then opens WhatsApp with a pre-filled message (items, subtotal, order reference, optional name, delivery area and note).
-- **Theme:** light by default, dark on request or when the system prefers it. The choice is remembered, and switching reveals the new theme in a circle from the toggle.
+- **Theme:** light by default; visitors can switch to dark with the toggle in the header. The choice is remembered, and switching reveals the new theme in a circle from the toggle.
 - **Motion:** intro loader, word-by-word headings, image wipes, scroll reveals, a photo that flies from a card into the product page, add-to-bag fly-in. Everything respects `prefers-reduced-motion`.
 - **Accessibility:** skip link, visible focus rings, labelled controls, keyboard-friendly gallery, lightbox and colour picker. Automated axe checks pass WCAG A/AA on every page in both themes.
 - **SEO:** a title, description and canonical URL per page (`<Seo>`), Product structured data on product pages, `robots.txt` keeping `/admin` out of search.

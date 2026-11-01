@@ -105,7 +105,7 @@ export default function Shop() {
         <div className="sticky top-[var(--header-h)] z-30 border-y border-hairline bg-background/90 backdrop-blur-xl">
           <div className="container-lux flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
             <div ref={tabsRef} className="rail -mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] lg:mx-0 lg:px-0">
-              <TabsList className="h-10 w-max gap-1 rounded-full bg-parchment p-1">
+              <TabsList className="w-max gap-1 rounded-full bg-parchment p-1 group-data-[orientation=horizontal]/tabs:h-11">
                 <TabsTrigger value={ALL} className="rounded-full px-4 data-[state=active]:bg-espresso data-[state=active]:text-cream">
                   All {total != null && <span className="text-xs opacity-60 tabular-nums">{total}</span>}
                 </TabsTrigger>

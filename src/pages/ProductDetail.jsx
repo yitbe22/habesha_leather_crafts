@@ -218,12 +218,12 @@ function ProductView({ product }) {
 
             <m.div variants={rise} custom={7} className="mt-9">
               <Tabs defaultValue="details">
-                <TabsList className="w-full justify-start gap-6 rounded-none border-b border-hairline bg-transparent p-0">
+                <TabsList className="w-full justify-start gap-6 group-data-[orientation=horizontal]/tabs:h-auto rounded-none border-b border-hairline bg-transparent p-0">
                   {['details', 'care', 'delivery'].map((tab) => (
                     <TabsTrigger
                       key={tab}
                       value={tab}
-                      className="flex-none rounded-none border-0 border-b-2 border-transparent px-0 pb-3 capitalize shadow-none data-[state=active]:border-cognac data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                      className="min-h-11 flex-none rounded-none border-0 border-b-2 border-transparent px-0 pb-3 capitalize shadow-none data-[state=active]:border-cognac data-[state=active]:bg-transparent data-[state=active]:shadow-none"
                     >
                       {tab}
                     </TabsTrigger>

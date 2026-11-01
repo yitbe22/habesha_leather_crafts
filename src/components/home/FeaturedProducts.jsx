@@ -12,7 +12,7 @@ export function FeaturedProducts() {
   return (
     <section className="container-lux section-y" aria-labelledby="featured-heading">
       <SectionHeading id="featured-heading" eyebrow="Featured pieces" title="Favourites from the workshop">
-        <Link to="/shop" className="group inline-flex items-center gap-3 text-[0.95rem]">
+        <Link to="/shop" className="group inline-flex min-h-11 items-center gap-3 text-[0.95rem]">
           <span className="link-draw">Shop the collection</span>
           <span className="grid size-9 place-items-center rounded-full border border-foreground/25 transition group-hover:translate-x-1 group-hover:border-foreground">
             <ArrowRight className="size-3.5" strokeWidth={1.6} />

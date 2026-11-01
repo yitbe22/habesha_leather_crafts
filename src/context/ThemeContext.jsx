@@ -21,8 +21,8 @@ function apply(theme) {
 }
 
 /**
- * Light / dark theme. The visitor's own choice is remembered; until they make
- * one, the system setting decides (see the script in index.html).
+ * Light / dark theme. Light is the default; a visitor who switches to dark
+ * has that choice remembered (see the script in index.html).
  */
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(current)

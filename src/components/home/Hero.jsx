@@ -41,6 +41,20 @@ const frameOpen = {
   },
 }
 
+/** The three promises under the buttons (on phones, under the photo instead). */
+function Promises({ className }) {
+  return (
+    <m.ul variants={rise} custom={0.86} className={`w-full max-w-lg grid-cols-3 gap-4 border-t border-hairline pt-6 ${className}`}>
+      {PROMISES.map(({ Icon, label }) => (
+        <li key={label} className="flex flex-col gap-2 text-[0.82rem] leading-snug text-muted-foreground sm:flex-row sm:items-center">
+          <Icon className="size-[1.1rem] shrink-0 text-cognac" strokeWidth={1.5} />
+          {label}
+        </li>
+      ))}
+    </m.ul>
+  )
+}
+
 /**
  * Home hero: the headline on the left, an arch-topped photo frame on the
  * right that crossfades between lifestyle shots with a slow zoom. Hovering the
@@ -70,15 +84,15 @@ export function Hero() {
       <m.div
         initial={false}
         animate={ready ? 'show' : 'hidden'}
-        className="container-lux relative grid items-center gap-14 pt-[calc(var(--header-h)+2.5rem)] pb-16 lg:min-h-svh lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-12"
+        className="container-lux relative grid items-center gap-10 pt-[calc(var(--header-h)+1.25rem)] pb-14 sm:gap-14 sm:pt-[calc(var(--header-h)+2.5rem)] lg:min-h-svh lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-12"
       >
-        {/* headline */}
+        {/* headline. On phones it is kept compact so the photo starts on the first screen. */}
         <div className="flex flex-col items-start">
           <m.p variants={rise} custom={0.05} className="eyebrow flex items-center gap-3">
             <LogoMark size={16} className="text-gold" />
             Handcrafted in Addis Ababa
           </m.p>
-          <h1 className="text-display mt-6 max-w-[11ch] leading-[0.94]">
+          <h1 className="text-display mt-4 max-w-[11ch] leading-[0.94] sm:mt-6">
             {TITLE.split(' ').map((w, i) => (
               <Fragment key={i}>
                 <span className="word-mask">
@@ -89,31 +103,25 @@ export function Hero() {
               </Fragment>
             ))}
           </h1>
-          <m.p variants={rise} custom={0.6} className="mt-6 max-w-[44ch] text-lg leading-relaxed text-muted-foreground">
+          <m.p variants={rise} custom={0.6} className="mt-4 max-w-[44ch] leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
             Bags, wallets and belts cut from Ethiopian hides and stitched by hand, one piece at a time, in our Addis Ababa workshop.
           </m.p>
-          <m.div variants={rise} custom={0.72} className="mt-9 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="group h-13 rounded-full px-8 text-[0.95rem]">
+          {/* side by side on phones too, with shorter labels */}
+          <m.div variants={rise} custom={0.72} className="mt-7 grid w-full grid-cols-2 gap-2.5 sm:mt-9 sm:flex sm:w-auto sm:flex-wrap sm:gap-3">
+            <Button asChild size="lg" className="group h-12 rounded-full px-5 text-[0.95rem] sm:h-13 sm:px-8">
               <Link to="/shop">
-                Shop the collection
+                Shop<span className="hidden sm:inline"> the collection</span>
                 <ArrowRight className="transition-transform group-hover:translate-x-1" strokeWidth={1.6} />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-13 rounded-full bg-transparent px-7 text-[0.95rem]">
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-transparent px-5 text-[0.95rem] sm:h-13 sm:px-7">
               <a href={whatsappLink(`Hello ${site.name}, I'd like to place an order.`)} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon className="size-[1.1rem]" />
-                Order on WhatsApp
+                <span className="hidden sm:inline">Order on </span>WhatsApp
               </a>
             </Button>
           </m.div>
-          <m.ul variants={rise} custom={0.86} className="mt-12 grid w-full max-w-lg grid-cols-3 gap-4 border-t border-hairline pt-6">
-            {PROMISES.map(({ Icon, label }) => (
-              <li key={label} className="flex flex-col gap-2 text-[0.82rem] leading-snug text-muted-foreground sm:flex-row sm:items-center">
-                <Icon className="size-[1.1rem] shrink-0 text-cognac" strokeWidth={1.5} />
-                {label}
-              </li>
-            ))}
-          </m.ul>
+          <Promises className="mt-12 hidden sm:grid" />
         </div>
 
         {/* photo frame */}
@@ -159,12 +167,12 @@ export function Hero() {
                     onClick={() => setIndex(i)}
                     aria-label={`Show photo ${i + 1} of ${slides.length}: ${s.label}`}
                     aria-current={i === index}
-                    className="relative h-1 w-9 overflow-hidden rounded-full bg-cream/35 before:absolute before:-inset-3 before:content-['']"
+                    className="relative h-1 w-9 rounded-full bg-cream/35 before:absolute before:-inset-x-1 before:-inset-y-5 before:content-['']"
                   >
                     {i === index && (
                       <m.span
                         key={`${index}-${running}`}
-                        className="absolute inset-0 origin-left bg-cream"
+                        className="absolute inset-0 origin-left rounded-full bg-cream"
                         initial={{ scaleX: running ? 0 : 1 }}
                         animate={{ scaleX: 1 }}
                         transition={{ duration: running ? SLIDE_MS / 1000 : 0, ease: 'linear' }}
@@ -196,6 +204,8 @@ export function Hero() {
             </AnimatePresence>
           </m.div>
         </div>
+
+        <Promises className="mt-4 grid sm:hidden" />
       </m.div>
     </section>
   )

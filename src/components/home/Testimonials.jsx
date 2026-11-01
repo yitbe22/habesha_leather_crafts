@@ -73,16 +73,19 @@ export function Testimonials() {
             <button type="button" className={navBtn} onClick={() => go(-1)} aria-label="Previous quote">
               <ChevronLeft className="size-4" strokeWidth={1.6} />
             </button>
-            <div className="flex gap-2">
+            <div className="flex">
               {quotes.map((q, i) => (
+                // the button is a comfortable 44px-tall touch target; the dot inside stays small
                 <button
                   key={q.id}
                   type="button"
                   onClick={() => setIndex(i)}
                   aria-label={`Quote ${i + 1} of ${count}`}
                   aria-current={i === index}
-                  className="h-1.5 rounded-full bg-cream/30 transition-all duration-500 aria-[current=true]:w-7 aria-[current=true]:bg-gold [&:not([aria-current=true])]:w-1.5"
-                />
+                  className="group grid h-11 min-w-6 place-items-center px-1"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-cream/30 transition-all duration-500 group-aria-[current=true]:w-7 group-aria-[current=true]:bg-gold" />
+                </button>
               ))}
             </div>
             <button type="button" className={navBtn} onClick={() => go(1)} aria-label="Next quote">

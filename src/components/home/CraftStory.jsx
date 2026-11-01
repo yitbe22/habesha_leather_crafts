@@ -58,7 +58,7 @@ export function CraftStory() {
           No production line, no shortcuts: just good leather, waxed thread and time.
         </Reveal>
         <Reveal delay={0.25}>
-          <Link to="/about" className="group inline-flex items-center gap-3 text-[0.95rem]">
+          <Link to="/about" className="group inline-flex min-h-11 items-center gap-3 text-[0.95rem]">
             <span className="link-draw">Read our story</span>
             <span className="grid size-9 place-items-center rounded-full border border-foreground/25 transition group-hover:translate-x-1 group-hover:border-foreground">
               <ArrowRight className="size-3.5" strokeWidth={1.6} />

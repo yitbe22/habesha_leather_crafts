@@ -95,17 +95,18 @@ export function ProductCard({ product, index = 0, sizes = '(min-width: 1024px) 2
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-3 pt-4">
-        <div className="flex min-w-0 flex-col gap-1">
-          <p className="text-[0.7rem] font-medium tracking-[0.18em] text-muted-foreground uppercase">{product.category?.name}</p>
-          <Heading className="font-serif text-[1.2rem] leading-snug">
-            <Link to={href} className="link-draw">
-              {product.name}
-            </Link>
-          </Heading>
-          <p className="text-sm text-cognac tabular-nums">{formatPrice(product.price, product.currency)}</p>
+      {/* colour dots share the category row, so the name gets the card's full width (it matters on two-column phones) */}
+      <div className="flex flex-col gap-1 pt-3.5 sm:pt-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="truncate text-xs font-medium tracking-[0.16em] text-muted-foreground uppercase">{product.category?.name}</p>
+          <ColorDots colors={product.colors} className="shrink-0" />
         </div>
-        <ColorDots colors={product.colors} className="mt-6 shrink-0" />
+        <Heading className="font-serif text-[1.08rem] leading-snug sm:text-[1.2rem]">
+          <Link to={href} className="link-draw">
+            {product.name}
+          </Link>
+        </Heading>
+        <p className="text-sm text-cognac tabular-nums">{formatPrice(product.price, product.currency)}</p>
       </div>
     </article>
   )

@@ -41,7 +41,7 @@ export default function NotFound() {
           <Link
             key={c}
             to={`/shop?category=${c.toLowerCase()}`}
-            className="rounded-full border border-border px-4 py-1.5 transition-colors hover:border-cognac hover:text-cognac"
+            className="rounded-full border border-border px-4 py-2.5 transition-colors hover:border-cognac hover:text-cognac"
           >
             {c}
           </Link>

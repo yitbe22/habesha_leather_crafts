@@ -21,8 +21,10 @@
 
   --hairline: color-mix(in oklab, var(--espresso) 12%, transparent);
 
-  /* one spacing rhythm for every section */
-  --section-y: clamp(4.5rem, 9vw, 8rem);
+  /* one spacing rhythm for every section (a little tighter on phones) */
+  --section-y: clamp(3.75rem, 9vw, 8rem);
+  /* space above the first heading of an inner page, under the fixed header */
+  --page-top: clamp(2.25rem, 9vw, 8rem);
   --gutter: clamp(1rem, 4vw, 3rem);
   --header-h: 72px;
 
@@ -199,7 +201,7 @@
 
   .section-y { padding-block: var(--section-y); }
   /* first section of an inner page: clears the fixed header, then one rhythm step */
-  .page-top { padding-top: calc(var(--section-y) + var(--header-h)); }
+  .page-top { padding-top: calc(var(--page-top) + var(--header-h)); }
   .container-lux {
     @apply mx-auto w-full max-w-[1320px];
     padding-inline: var(--gutter);
